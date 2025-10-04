@@ -143,39 +143,51 @@ class DepartureCard extends HTMLElement {
             max-width: 100%;
             padding: 16px;
             overflow-x: auto;
-          }
+	  }
+	  .card-content.text-xs { font-size: var(--ha-font-size-xs); }
+	  .card-content.text-s { font-size: var(--ha-font-size-s); }
+	  .card-content.text-m { font-size: var(--ha-font-size-m); }
+	  .card-content.text-l { font-size: var(--ha-font-size-l); }
+	  .card-content.text-xl { font-size: var(--ha-font-size-xl); }
           h1 {
-            margin: 0;
+            margin: 8px 0 0 0;
           }
           .filtered-stop {
-            font-size: 0.8em;
-            color: gray;
+            color: var(--secondary-text-color);
             margin-top: 0;
           }
           .table {
-            width: 100%;
+	    margin: 0 -16px 0 -16px;
+            width: calc(100% + 32px);
             border-collapse: collapse;
           }
-          .departure-row {
-            padding: 4px 0;
-          }
-          .departure-row td{
-            border-bottom: 1px solid rgba(180, 180, 180, 0.6);
+          .departure-row td {
+            border-bottom: var(--ha-card-border-width,1px) solid var(--ha-card-border-color,var(--divider-color,#e0e0e0));
             line-height: 1.2;
+	    padding: 4px;
           }
+	  .departure-row:last-child td {
+	    border-bottom: 0px none;
+	  }
+	  .departure-row td:last-child {
+	    padding-right: 16px;
+	  }
+	  .on-time .departure {
+	    color: var(--success-color);
+	  }
+	  .delayed .departure {
+	    color: var(--error-color);
+	  }
           .cancelled {
             text-decoration: line-through;
             opacity: 0.6;
           }
-          .train, .destination, .platform, .departure, .delay {
-            font-size: 0.9em;
-            padding: 4px;
-          }
-          .train {
+          .departure-row td.train {
             text-align: left;
             white-space: nowrap;
+	    padding-left: 16px;
           }
-          .destination {
+          .departure-row td.destination {
             text-align: left;
             max-width: 150px;
           }
@@ -185,15 +197,15 @@ class DepartureCard extends HTMLElement {
             overflow: hidden;
             text-overflow: ellipsis;
           }
-          .platform {
+          .departure-row td.platform {
             text-align: left;            
             white-space: nowrap;
           }
-          .departure {
+          .departure-row td.departure {
             text-align: right;
             white-space: nowrap;
           }
-          .delay {
+          .departure-row td.delay {
             text-align: left;
             padding-left: 4px;
             min-width: 20px;
@@ -203,7 +215,7 @@ class DepartureCard extends HTMLElement {
             color: red;
           }
         </style>
-        <div class="card-content">
+        <div class="card-content text-${config.fontSize}">
           <h1>${config.title}</h1>
     `;
     
@@ -233,9 +245,9 @@ class DepartureCard extends HTMLElement {
       }
 
       // Default color for departure time and text for no delay.mIf there is a delay, adjust color and add delay text
-      let departureColor = delay > 0 ? "red" : "green";
+      let departureState = delay > 0 ? "delayed" : "on-time";
       let delayText = delay > 0 ? `+${delay}` : "";
-      let isCancelledClass = isCancelled == 1 ? "cancelled" : "";
+      departureState = isCancelled == 1 ? "cancelled" : departureState;
 
       if (relativeTime && !unixTime) {
         let [h, m] = departure.split(':').map(Number),
@@ -266,11 +278,11 @@ class DepartureCard extends HTMLElement {
       }
 
       departuresHtml += `
-          <tr class="departure-row ${isCancelledClass}">
+          <tr class="departure-row ${departureState}">
             <td class="train"><strong>${train}</strong></td>
             <td class="destination"><span class="destination-text">${destination}</span></td>
             ${config.show_platform ? `<td class="platform">${platform}</td>` : ""}
-            <td class="departure" style="color: ${departureColor};">${departure}</td>
+            <td class="departure">${departure}</td>
             ${!relativeTime ? `<td class="delay">${delayText ? `<span>${delayText}</span>` : ""}</td>` : ""}
           </tr>
         `;
@@ -302,6 +314,7 @@ class DepartureCard extends HTMLElement {
       entity: '',
       connections_attribute: 'next_departures',
       displayed_connections: 5,
+      fontSize: 's',
       unix_time: false,  
       convertTimeHHMM: false,
       relativeTime: false,
@@ -355,12 +368,25 @@ class DepartureCard extends HTMLElement {
                 { name: "show_platform", selector: { boolean: {} } },
               ]
             },
-            
             {
-                name: "displayed_connections",
-                required: true,
-                selector: { number: { min: 1, max: 20, mode: "box" } }
-            },
+	      type: "constant",
+	      name: "Display"
+	    },
+	    {
+	      name: "",
+              type: "grid",
+	      multiple: false,
+              default: {},
+	      schema: [
+                { name: "displayed_connections", required: true, selector: { number: { min: 1, max: 20, mode: "box" } } },
+	        { name: "fontSize", required: true, selector: { select: { mode: "dropdown", options: [
+			{ label: "Extra Small", value: "xs" },
+			{ label: "Small", value: "s" },
+			{ label: "Medium", value: "m" },
+			{ label: "Large", value: "l" },
+		        { label: "Extra Large", value: "xl" } ] } } }
+	      ]
+	    },
             {
               type: "constant",
               name: "Time Information"              
