@@ -38,6 +38,7 @@ title: Köln Hbf
 entity: sensor.koln_hbf_departures
 connections_attribute: next_departures
 displayed_connections: 8
+fontSize: s
 unix_time: false
 convertTimeHHMM: false
 relativeTime: false
@@ -117,6 +118,9 @@ The attribute within the sensor data that holds the list of departures.
 
 ### displayed_connections
 The number of connections (departures) to display.
+
+### fontSize
+Font size used in the table. Allowed values are xs, s (default), m, l and xl.
 
 ### unix_time
 Boolean flag that determines whether to convert Unix time format for timestamps. Check your sensor. If it shows something like 1737619740 it's unix-time.  
