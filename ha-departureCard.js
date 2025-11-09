@@ -157,12 +157,12 @@ class DepartureCard extends HTMLElement {
             max-width: 100%;
             padding: 16px;
             overflow-x: auto;
-	  }
-	  .card-content.text-xs { font-size: var(--ha-font-size-xs); }
-	  .card-content.text-s { font-size: var(--ha-font-size-s); }
-	  .card-content.text-m { font-size: var(--ha-font-size-m); }
-	  .card-content.text-l { font-size: var(--ha-font-size-l); }
-	  .card-content.text-xl { font-size: var(--ha-font-size-xl); }
+		  }
+		  .card-content.text-xs { font-size: var(--ha-font-size-xs); }
+		  .card-content.text-s { font-size: var(--ha-font-size-s); }
+		  .card-content.text-m { font-size: var(--ha-font-size-m); }
+		  .card-content.text-l { font-size: var(--ha-font-size-l); }
+		  .card-content.text-xl { font-size: var(--ha-font-size-xl); }
           h1 {
             margin: 8px 0 0 0;
           }
@@ -171,27 +171,26 @@ class DepartureCard extends HTMLElement {
             margin-top: 0;
           }
           .table {
-	    margin: 0 -16px 0 -16px;
-            width: calc(100% + 32px);
+	    	width: 100%;
             border-collapse: collapse;
           }
           .departure-row td {
             border-bottom: var(--ha-card-border-width,1px) solid var(--ha-card-border-color,var(--divider-color,#e0e0e0));
             line-height: 1.2;
-	    padding: 4px;
+	    	padding: 4px;
           }
-	  .departure-row:last-child td {
-	    border-bottom: 0px none;
-	  }
-	  .departure-row td:last-child {
-	    padding-right: 16px;
-	  }
-	  .on-time .departure {
-	    color: var(--success-color);
-	  }
-	  .delayed .departure {
-	    color: var(--error-color);
-	  }
+		  .departure-row:last-child td {
+		    border-bottom: 0px none;
+		  }
+		  .departure-row td:last-child {
+		    padding-right: 16px;
+		  }
+		  .on-time .departure {
+		    color: var(--success-color);
+		  }
+		  .delayed .departure {
+		    color: var(--error-color);
+		  }
           .cancelled {
             text-decoration: line-through;
             opacity: 0.6;
@@ -199,7 +198,7 @@ class DepartureCard extends HTMLElement {
           .departure-row td.train {
             text-align: left;
             white-space: nowrap;
-	    padding-left: 16px;
+	    	padding-left: 16px;
           }
           .departure-row td.destination {
             text-align: left;
@@ -226,7 +225,7 @@ class DepartureCard extends HTMLElement {
             white-space: nowrap;
           }
           .delay span {
-            color: red;
+            color: var(--error-color);
           }
         </style>
         <div class="card-content text-${config.fontSize}">
