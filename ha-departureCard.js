@@ -18,6 +18,16 @@ class DepartureCard extends HTMLElement {
     
     return errors;
   }
+  connectedCallback() {
+    // Re-render card on intervall
+    this._interval = setInterval(() => {
+      this.renderCard(this.prevHass, this.config, this.config.entity);
+    }, 10000);
+  }
+
+  disconnectedCallback() {
+    if (this._interval) clearInterval(this._interval);
+  }
   // Sets the 'hass' state, which holds the Home Assistant data
   set hass(hass) {
     const config = this.config;
@@ -46,7 +56,9 @@ class DepartureCard extends HTMLElement {
 
     this.prevState = currentState; // save current state
     this.prevHass = hass; // save current hass
-
+    this.renderCard(hass, config, entity);
+  }
+  renderCard(hass, config, entity) {
     const connectionsAttribute = config.connections_attribute || 'next_departures';
     const displayed_connections = config.displayed_connections || 5;
     const unixTime = config.unix_time || false;
