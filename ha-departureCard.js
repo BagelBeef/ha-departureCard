@@ -21,7 +21,9 @@ class DepartureCard extends HTMLElement {
   connectedCallback() {
     // Re-render card on intervall
     this._interval = setInterval(() => {
-      this.renderCard(this.prevHass, this.config, this.config.entity);
+      if (this.prevHass && this.config && this.config.entity) {
+        this.renderCard(this.prevHass, this.config, this.config.entity);
+      }
     }, 10000);
   }
 
