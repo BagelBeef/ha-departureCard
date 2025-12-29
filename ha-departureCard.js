@@ -188,6 +188,9 @@ class DepartureCard extends HTMLElement {
 		  .on-time .departure {
 		    color: var(--success-color);
 		  }
+		  .short-delay .departure {
+		    color: var(--warning-color);
+		  }
 		  .delayed .departure {
 		    color: var(--error-color);
 		  }
@@ -257,8 +260,19 @@ class DepartureCard extends HTMLElement {
         departure = connection[config.departure] || '';
       }
 
-      // Default color for departure time and text for no delay.mIf there is a delay, adjust color and add delay text
-      let departureState = delay > 0 ? "delayed" : "on-time";
+      // Default color for departure time and text for no delay. If there is a delay, adjust color and add delay text
+      // Use configurable thresholds for green (on-time) and orange (warning) states
+      const delayGreenThreshold = config.delayGreenThreshold || 0;
+      const delayOrangeThreshold = config.delayOrangeThreshold || 0;
+      
+      let departureState;
+      if (delay <= delayGreenThreshold) {
+        departureState = "on-time";
+      } else if (delayOrangeThreshold > 0 && delay <= delayOrangeThreshold) {
+        departureState = "short-delay";
+      } else {
+        departureState = "delayed";
+      }
       let delayText = delay > 0 ? `+${delay}` : "";
       departureState = isCancelled == 1 ? "cancelled" : departureState;
 
@@ -339,6 +353,8 @@ class DepartureCard extends HTMLElement {
       train: 'train', 
       departure: 'scheduledTime',
       delay: 'delay',
+      delayGreenThreshold: 0,  // Max delay (in minutes) that still shows green
+      delayOrangeThreshold: 0,  // Max delay (in minutes) that shows orange/warning (0 = disabled)
       platform: 'platform',
       show_platform: true,  // Default to true (platform column always rendered)
       isCancelled: 'isCancelled',
@@ -412,6 +428,8 @@ class DepartureCard extends HTMLElement {
               schema: [
                 { name: "departure", description: "Departure time attribute", selector: { text: {} } },
                 { name: "delay", selector: { text: {} } },
+                { name: "delayGreenThreshold", selector: { number: { min: 0, max: 30, mode: "box" } } },
+                { name: "delayOrangeThreshold", selector: { number: { min: 0, max: 60, mode: "box" } } },
                 { name: "unix_time", selector: { boolean: {} } },
                 { name: "convertTimeHHMM", selector: { boolean: {} } },
                 { name: "relativeTime", selector: { boolean: {} } },
