@@ -67,7 +67,7 @@ class DepartureCard extends HTMLElement {
     const convertTimeHHMM = config.convertTimeHHMM || false;
     const relativeTime = config.relativeTime || false;
     const limit = config.limit || 60;
-    const minorDelayLimit = 5; // This is the amount of minutes that are still considered a "minor" delay with different coloring. Setting it to 0 disables this feature
+    const minorDelayLimit = config.minorDelayLimit || 5; // This is the amount of minutes that are still considered a "minor" delay with different coloring. Setting it to 0 disables this feature
 
     // Targets (destinations) that should be filtered from the connections list
     const targets = config.targets || [];

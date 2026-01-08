@@ -136,6 +136,11 @@ All time values above the limit will be displayed in HH:MM.
 
 Default is set to 60
 
+### minorDelayLimit
+Delays that are bigger than the value minorDelayLimit (given in minutes) are colored with error accent color. Delays up to minorDelayLimit value are highlighted in warning accent color to provide a visual differentiation.
+
+Default is set to 5
+
 ## connection_properties
 
 Defines how each departure is displayed and which properties are included.
