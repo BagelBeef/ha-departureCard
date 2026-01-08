@@ -67,6 +67,7 @@ class DepartureCard extends HTMLElement {
     const convertTimeHHMM = config.convertTimeHHMM || false;
     const relativeTime = config.relativeTime || false;
     const limit = config.limit || 60;
+    const minorDelayLimit = 5; // This is te amount of minutes that are still considered a "minor" delay with different coloring. Setting it to 0 disables this feature
 
     // Targets (destinations) that should be filtered from the connections list
     const targets = config.targets || [];
@@ -188,6 +189,9 @@ class DepartureCard extends HTMLElement {
 		  .on-time .departure {
 		    color: var(--success-color);
 		  }
+      .minor-delayed .departure {
+		    color: var(--warning-color);
+		  }
 		  .delayed .departure {
 		    color: var(--error-color);
 		  }
@@ -257,8 +261,16 @@ class DepartureCard extends HTMLElement {
         departure = connection[config.departure] || '';
       }
 
-      // Default color for departure time and text for no delay.mIf there is a delay, adjust color and add delay text
+      // Default color for departure time and text for no delay. If there is a delay, adjust color and add delay text
       let departureState = delay > 0 ? "delayed" : "on-time";
+      if (delay > minorDelayLimit) {
+        departureState = "delayed";
+      } else if (delay > 0) {
+        departureState = "minor-delayed";
+      } else {
+        departureState = "on-time";
+      }
+
       let delayText = delay > 0 ? `+${delay}` : "";
       departureState = isCancelled == 1 ? "cancelled" : departureState;
 
