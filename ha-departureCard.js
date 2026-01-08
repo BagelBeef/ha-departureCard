@@ -189,7 +189,7 @@ class DepartureCard extends HTMLElement {
 		  .on-time .departure {
 		    color: var(--success-color);
 		  }
-      .minor-delayed .departure {
+		  .minor-delayed .departure {
 		    color: var(--warning-color);
 		  }
 		  .delayed .departure {
@@ -273,7 +273,6 @@ class DepartureCard extends HTMLElement {
       } else {
         departureState = "on-time";
       }
-
       let delayText = delay > 0 ? `+${delay}` : "";
       departureState = isCancelled == 1 ? "cancelled" : departureState;
 
@@ -347,6 +346,7 @@ class DepartureCard extends HTMLElement {
       convertTimeHHMM: false,
       relativeTime: false,
       limit : 60,
+      minorDelayLimit: 5,
       targets: '', 
       exclude: false,
       line: '',
