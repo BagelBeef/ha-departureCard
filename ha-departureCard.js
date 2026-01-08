@@ -228,7 +228,10 @@ class DepartureCard extends HTMLElement {
             min-width: 20px;
             white-space: nowrap;
           }
-          .delay span {
+          .minor-delayed .delayText {
+            color: var(--warning-color);
+          }
+          .delayed .delayText {
             color: var(--error-color);
           }
         </style>
@@ -308,7 +311,7 @@ class DepartureCard extends HTMLElement {
             <td class="destination"><span class="destination-text">${destination}</span></td>
             ${config.show_platform ? `<td class="platform">${platform}</td>` : ""}
             <td class="departure">${departure}</td>
-            ${!relativeTime ? `<td class="delay">${delayText ? `<span>${delayText}</span>` : ""}</td>` : ""}
+            ${!relativeTime ? `<td class="delay">${delayText ? `<span class="delayText">${delayText}</span>` : ""}</td>` : ""}
           </tr>
         `;
     });
