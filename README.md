@@ -56,6 +56,8 @@ isCancelled: isCancelled
 stopAttribute: route 
 filterByStop: Köln Messe/Deutz
 stationName: Köln Hbf
+delayGreenThreshold: 2
+delayOrangeThreshold: 4
 ```
 ## Filter Options
 There are multiple ways you can filter and display connections. 
@@ -130,6 +132,12 @@ Sometimes the timestamp given by the api appears like this "2025-01-26 20:12:00"
 
 ### relativeTime
 If you want to display time values in relative time set realativeTime: true.
+
+### Formatting Delay Color
+delayGreenThreshold: 2 delays up to this value show green
+delayOrangeThreshold: 4 delays up to this value show orange
+
+Default is set to 0. All delays will be displayed in red.
 
 ### limit
 All time values above the limit will be displayed in HH:MM. 
