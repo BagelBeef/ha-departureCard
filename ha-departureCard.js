@@ -310,7 +310,7 @@ class DepartureCard extends HTMLElement {
             <td class="destination"><span class="destination-text">${destination}</span></td>
             ${config.show_platform ? `<td class="platform">${platform}</td>` : ""}
             <td class="departure">${departure}</td>
-            ${!relativeTime ? `<td class="delay">${delayText ? `<span>${delayText}</span>` : ""}</td>` : ""}
+            <td class="delay">${delayText ? `<span>${delayText}</span>` : ""}</td>
           </tr>
         `;
     });
